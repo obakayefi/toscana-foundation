@@ -130,7 +130,7 @@ export default function Scholarships() {
                                             <div className={''}>
                                                 <h6 className={'text-xs text-zinc-300'}>EQUIPMENT GIVEN</h6>
                                                 <span
-                                                    className='text-green-800 text-center'>{beneficiary.equipmentGiven}</span>
+                                                    className='text-green-800 text-left'>{beneficiary.equipmentGiven}</span>
                                             </div>
                                         </section>
                                     </section>
