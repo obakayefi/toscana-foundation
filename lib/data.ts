@@ -20,20 +20,20 @@ export const EVENT_PICS = [
         description: "Community Food Distribution Event",
         years: {
             2024: [
-                "/community-food-distribution/BW9A8911.jpg",
-                "/community-food-distribution/BW9A8913.jpg",
-                "/community-food-distribution/BW9A8915.jpg",
-                "/community-food-distribution/BW9A8921.jpg",
-                "/community-food-distribution/BW9A8934.jpg",
-                "/community-food-distribution/BW9A8942.jpg",
+                "/community-food-distribution/BW9A8911.JPG",
+                "/community-food-distribution/BW9A8913.JPG",
+                "/community-food-distribution/BW9A8915.JPG",
+                "/community-food-distribution/BW9A8921.JPG",
+                "/community-food-distribution/BW9A8934.JPG",
+                "/community-food-distribution/BW9A8942.JPG",
             ],
             2023: [
-                "/community-food-distribution/BW9A8911.jpg",
-                "/community-food-distribution/BW9A8913.jpg",
-                "/community-food-distribution/BW9A8915.jpg",
-                "/community-food-distribution/BW9A8921.jpg",
-                "/community-food-distribution/BW9A8934.jpg",
-                "/community-food-distribution/BW9A8942.jpg",
+                "/community-food-distribution/BW9A8911.JPG",
+                "/community-food-distribution/BW9A8913.JPG",
+                "/community-food-distribution/BW9A8915.JPG",
+                "/community-food-distribution/BW9A8921.JPG",
+                "/community-food-distribution/BW9A8934.JPG",
+                "/community-food-distribution/BW9A8942.JPG",
             ]
         }
     },

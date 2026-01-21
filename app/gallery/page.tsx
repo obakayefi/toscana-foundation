@@ -43,7 +43,7 @@ const events = [
         id: "community-food-distribution", // Matches lib/data.ts
         title: "Community Food Distribution Event",
         date: "July 2024",
-        coverImage: '/community-food-distribution/BW9A8921.jpg',
+        coverImage: '/community-food-distribution/BW9A8921.JPG',
         photoCount: 22,
     },
     {
