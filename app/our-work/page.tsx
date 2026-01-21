@@ -18,42 +18,42 @@ const programs = [
         title: "Agriculture & Livelihood",
         description: "We support sustainable farming practices and livelihood development for rural communities across Nigeria. Our programs include agricultural training, provision of farming inputs, and connecting farmers to markets.",
         icon: Sprout,
-        image: '/projects/IMG_3866.jpg',
+        image: '/projects/agriculture-livelihood.jpg',
     },
     {
         id: "microfinance",
         title: "Micro-Financing",
         description: "We provide financial support and training for small-scale entrepreneurs and women-led businesses. Through microloans and financial literacy programs, we empower individuals to build sustainable livelihoods.",
         icon: Banknote,
-        image: '/projects/IMG_3845.jpg',
+        image: '/projects/micro-financing.jpg',
     },
     {
         id: "capacity",
         title: "Capacity Building",
         description: "We develop skills and empower individuals for sustainable community transformation. Our capacity building programs include vocational training, leadership development, and organizational strengthening.",
         icon: GraduationCap,
-        image: '/projects/IMG_3868.jpg',
+        image: '/projects/capacity-building.jpg',
     },
     {
         id: "governance",
         title: "Good Governance & Human Rights",
         description: "We promote accountability, civic engagement, and human rights awareness across communities. Our advocacy programs strengthen democratic participation and protect fundamental rights.",
         icon: Scale,
-        image: '/projects/IMG_3865.jpg',
+        image: '/projects/good-governance.jpg',
     },
     {
         id: "health",
         title: "Health & Environment",
         description: "We advance health education and environmental sustainability for community wellbeing. Our programs address preventive healthcare, sanitation, and environmental conservation.",
         icon: HeartPulse,
-        image: '/projects/IMG_3874.jpg',
+        image: '/projects/health-environment.jpg',
     },
     {
         id: "charity",
         title: "Charity",
         description: "We provide humanitarian support to the less privileged and internally displaced persons. Our charity programs include food distribution, emergency relief, and support for vulnerable populations.",
         icon: Gift,
-        image: '/projects/IMG_3852.jpg',
+        image: '/projects/charity.jpg',
     },
     {
         id: "education",
@@ -89,9 +89,8 @@ export default function OurWork() {
                                 <div
                                     key={program.id}
                                     id={program.id}
-                                    className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${
-                                        index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                                    }`}
+                                    className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                                        }`}
                                     data-testid={`section-program-${program.id}`}
                                 >
                                     <div className={index % 2 === 1 ? "lg:order-2" : ""}>

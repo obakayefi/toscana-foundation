@@ -12,7 +12,7 @@ interface ProgramCardProps {
 
 export default function ProgramCard({ title, description, icon: Icon, image, href }: ProgramCardProps) {
     return (
-        <Card className="overflow-hidden hover-elevate group" data-testid={`card-program-${title.toLowerCase().replace(/\s+/g, "-")}`}>
+        <Card className="overflow-hidden py-0 hover-elevate group" data-testid={`card-program-${title.toLowerCase().replace(/\s+/g, "-")}`}>
             <div className="aspect-video relative overflow-hidden">
                 <img
                     src={image}
