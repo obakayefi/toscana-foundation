@@ -128,14 +128,14 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         gender: "Male",
         img: "/empowerment/udeogu_ikenna.JPG"
     },
-    {
-        name: "Okolie Udochukwu",
-        yearJoined: "2023",
-        craft: "Business",
-        equipmentGiven: "Building Materials",
-        gender: "Male",
-        img: "/empowerment/ogbu_favour.JPG"
-    },
+    // {
+    //     name: "Okolie Udochukwu",
+    //     yearJoined: "2023",
+    //     craft: "Business",
+    //     equipmentGiven: "Building Materials",
+    //     gender: "Male",
+    //     img: "/empowerment/ogbu_favour.JPG"
+    // },
     {
         name: "Ani Chinwendu",
         yearJoined: "2023",

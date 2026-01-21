@@ -53,14 +53,14 @@ const programs = [
         title: "Charity",
         description: "We provide humanitarian support to the less privileged and internally displaced persons. Our charity programs include food distribution, emergency relief, and support for vulnerable populations.",
         icon: Gift,
-        image: '/projects/charity.jpg',
+        image: '/projects/charity.JPG',
     },
     {
         id: "education",
         title: "Inclusive Education",
         description: "We create educational opportunities for all, including persons with disabilities. Our education programs promote access to quality learning and support for marginalized students.",
         icon: BookOpen,
-        image: '/projects/IMG_3850.jpg',
+        image: '/projects/IMG_3850.JPG',
     },
 ];
 
