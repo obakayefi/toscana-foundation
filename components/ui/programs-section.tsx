@@ -49,7 +49,7 @@ const programs = [
         title: "Charity",
         description: "Providing humanitarian support to the less privileged and internally displaced persons.",
         icon: Gift,
-        image: '/projects/charity.jpg',
+        image: '/projects/charity.JPG',
         href: "/our-work#charity",
     },
     {
