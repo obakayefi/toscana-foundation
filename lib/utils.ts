@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs))
 }
 
 export const ACADEMIC_BENEFICIARIES: ClassValue[] = [
@@ -13,7 +13,7 @@ export const ACADEMIC_BENEFICIARIES: ClassValue[] = [
         schoolName: "UNEC",
         course: "Law",
         gender: "Male",
-        img: "/scholars/ndu_mau.jpg"
+        img: "/scholars/ndu_mau.JPG"
     },
     {
         name: "Uchechukwu Treasure",
@@ -102,7 +102,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Tomatoes",
         gender: "Female",
-        img: "/empowerment/ogbu_favour.jpg"
+        img: "/empowerment/ogbu_favour.JPG"
     },
     {
         name: "Okolie Samuel",
@@ -110,7 +110,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Building Materials",
         gender: "Male",
-        img: "/empowerment/okolie_samuel.jpg"
+        img: "/empowerment/okolie_samuel.JPG"
     },
     {
         name: "Offor Adaku",
@@ -118,7 +118,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Crayfish",
         gender: "Female",
-        img: "/empowerment/offor_adaku.jpg"
+        img: "/empowerment/offor_adaku.JPG"
     },
     {
         name: "Udeogu Ikenna",
@@ -126,7 +126,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Phone Accessories",
         gender: "Male",
-        img: "/empowerment/udeogu_ikenna.jpg"
+        img: "/empowerment/udeogu_ikenna.JPG"
     },
     {
         name: "Okolie Udochukwu",
@@ -134,7 +134,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Building Materials",
         gender: "Male",
-        img: "/empowerment/ogbu_favour.jpg"
+        img: "/empowerment/ogbu_favour.JPG"
     },
     {
         name: "Ani Chinwendu",
@@ -142,7 +142,7 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Sewing Accessories",
         gender: "Female",
-        img: "/empowerment/ani_chinwendu.jpg"
+        img: "/empowerment/ani_chinwendu.JPG"
     },
     {
         name: "Ani Geraldine",
@@ -150,6 +150,6 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         craft: "Business",
         equipmentGiven: "Fruits",
         gender: "Female",
-        img: "/empowerment/ani_geraldine.jpg"
+        img: "/empowerment/ani_geraldine.JPG"
     }
 ]
