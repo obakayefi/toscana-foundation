@@ -32,8 +32,8 @@ export default function Scholarships() {
                                 grants, mentoring, and school supplies.</p>
                         </section>
 
-                        <section className={'mt-10 flex flex-col sm:grid sm:grid-cols-2 grid-cols-4 gap-4'}>
-                            {ACADEMIC_BENEFICIARIES.map((beneficiary: any) => (
+                        <section className={'mt-10 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-4 gap-4'}>
+                            {ACADEMIC_BENEFICIARIES.sort((a: any, b: any) => a.yearJoined - b.yearJoined).map((beneficiary: any) => (
                                 <div
                                     className={'flex flex-col w-full border-zinc-300 p-2 duration-300 rounded-xl text-zinc-700 bg-white gap-2'}>
                                     <section
@@ -50,7 +50,7 @@ export default function Scholarships() {
                                         className={'flex flex-col py-3 bg-white/80 gap-6 px-4 rounded-lg border-zinc-200'}>
                                         {/*<p className={'text-sm rounded-full px-2 bg-green-100 text-green-800 font-semibold uppercase'}>secondary education</p>*/}
                                         <div className={'flex flex-col items-center gap-2'}>
-                                            <h4 className={'text-xl text-center px-2'}>{beneficiary.name}</h4>
+                                            <h4 className={'text-lg text-center px-2'}>{beneficiary.name}</h4>
                                             <p className={'bg-green-200 font-semibold text-center py-1 px-2 text-xs text-green-800 rounded-full '}>
                                                 {beneficiary.schoolName}
                                             </p>
@@ -89,8 +89,8 @@ export default function Scholarships() {
                             </p>
                         </section>
 
-                        <section className={'mt-10 flex flex-col sm:grid sm:grid-cols-2 grid-cols-4 gap-4'}>
-                            {YOUTH_EMPOWERMENT_BENEFICIARIES.map((beneficiary) => (
+                        <section className={'mt-10 flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'}>
+                            {YOUTH_EMPOWERMENT_BENEFICIARIES.sort((a: any, b: any) => Number(a.yearJoined) - Number(b.yearJoined)).map((beneficiary: any) => (
                                 <div
                                     className={'flex flex-col border-zinc-300 p-2 duration-300 rounded-xl text-zinc-700 bg-white gap-2'}>
                                     <section
@@ -128,7 +128,7 @@ export default function Scholarships() {
 
                                         <section>
                                             <div className={''}>
-                                                <h6 className={'text-xs text-zinc-300'}>EQUIPMENT GIVEN</h6>
+                                                <h6 className={'text-xs text-zinc-300'}>BUSINESS AREA</h6>
                                                 <span
                                                     className='text-green-800 text-left'>{beneficiary.equipmentGiven}</span>
                                             </div>

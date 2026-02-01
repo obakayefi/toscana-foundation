@@ -35,7 +35,7 @@ export default function Hero() {
                     </p>
 
                     <div className="mt-10 flex flex-wrap gap-4">
-                        <Link href="/donate">
+                        <Link href="/funding-partners#donate">
                             <Button
                                 size="lg"
                                 className="bg-white text-primary hover:bg-white/90 font-semibold px-8"

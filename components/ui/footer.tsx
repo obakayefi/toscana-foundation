@@ -7,13 +7,13 @@ const quickLinks = [
     { label: "Our Work", href: "/our-work" },
     { label: "Our Team", href: "/team" },
     { label: "Contact", href: "/contact" },
-    { label: "Donate", href: "/donate" },
+    { label: "Donate", href: "/funding-partners#donate" },
 ];
 
 const contactInfo = {
     address: "No1 Agwuleri Street, Independence Layout Enugu North L.G.A, Enugu State, Nigeria",
     email: "villatoscanafoundation@yahoo.com",
-    phones: ["08037655182", "08052379600", "07039189063"],
+    phones: ["08037655182", "07039189063"],
 };
 
 export default function Footer() {
@@ -22,11 +22,14 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div className="lg:col-span-2">
-                        <div className="flex items-center gap-2 mb-4">
-                            <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                        <div className="flex items-end gap-2 mb-4">
+                            {/* <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
                                 <Heart className="w-5 h-5 text-white" />
-                            </div>
-                            <span className="font-semibold text-lg">Toscana Foundation</span>
+                            </div>*/}
+                            <Link href="/" className="flex items-center gap-2" data-testid="link-logo">
+                                <img src="/logo.png" alt="Logo" className="w-28 md:w-32 mt-10 bg-white rounded-xl object-cover h-auto" />
+                            </Link>
+                            {/* <span className="font-semibold text-lg">Toscana Foundation</span> */}
                         </div>
                         <p className="text-white/80 font-body text-sm leading-relaxed max-w-md">
                             Villa Toscana Community Development Foundation is a non-governmental,

@@ -2,14 +2,8 @@ import TeamCard from "@/components/ui/team-card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { boardOfTrustees } from "@/lib/data";
 
-// todo: remove mock functionality
-const boardMembers = [
-    { name: "Chief Francis Obasi", position: "Chairman", phone: "07039189063" },
-    { name: "Dr. Mrs. Elizabeth Ifeoma Obasi", position: "Secretary", phone: "07038962673" },
-    { name: "Comr. Nnamdi Boniface Uche (PhD)", position: "Programmes Manager", phone: "08037655182" },
-    { name: "Engr. Kingsley Ogbonna", position: "Member", phone: "08035091190" },
-];
 
 export default function TeamSection() {
     return (
@@ -25,7 +19,7 @@ export default function TeamSection() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {boardMembers.map((member) => (
+                    {boardOfTrustees.map((member: any) => (
                         <TeamCard key={member.name} {...member} />
                     ))}
                 </div>

@@ -11,47 +11,48 @@ import youthImage from "@assets/generated_images/youth_skills_training_workshop.
 
 // todo: remove mock functionality
 const events = [
-    // {
-    //     id: "health-outreach",
-    //     title: "Community Health Outreach Program",
-    //     date: "November 2024",
-    //     coverImage: '/health_outreach_community_event.png',
-    //     photoCount: 24,
-    // },
-    // {
-    //     id: "women-empowerment-graduation",
-    //     title: "Women Empowerment Graduation Ceremony",
-    //     date: "October 2024",
-    //     coverImage: '/women_empowerment_graduation_ceremony.png',
-    //     photoCount: 32,
-    // },
-    // {
-    //     id: "school-supplies",
-    //     title: "Back to School Supplies Distribution",
-    //     date: "September 2024",
-    //     coverImage: '/school_supplies_distribution_event.png',
-    //     photoCount: 18,
-    // },
     {
-        id: "agricultural-training",
-        title: "Agricultural Skills Training Workshop",
-        date: "August 2024",
-        coverImage: '/agricultural-training/BW9A4150.jpg',
-        photoCount: 28,
+        id: "health-outreach",
+        title: "Community Health Outreach",
+        date: "2025",
+        coverImage: '/health-outreach/health-002-closer.jpg',
+        photoCount: 1,
     },
+
     {
         id: "community-food-distribution", // Matches lib/data.ts
-        title: "Community Food Distribution Event",
-        date: "July 2024",
+        title: "Community Food Distribution",
+        date: "2023",
         coverImage: '/community-food-distribution/BW9A8921.JPG',
-        photoCount: 22,
+        photoCount: 5,
+    },
+    {
+        id: "scholarships",
+        title: "Scholarships",
+        date: " 2024",
+        coverImage: '/projects/IMG_3841.JPG',
+        photoCount: 1,
+    },
+    {
+        id: "agricultural-training",
+        title: "Agricultural Empowerment",
+        date: "2023",
+        coverImage: '/agricultural-training/BW9A4150.jpg',
+        photoCount: 2,
+    },
+    {
+        id: "women-empowerment",
+        title: "Women Empowerment",
+        date: "2023",
+        coverImage: '/women-empowerment/women-001.jpg',
+        photoCount: 1,
     },
     {
         id: "youth-training", // Matches lib/data.ts
-        title: "Youth Vocational Skills Training",
-        date: "June 2024",
+        title: "Youth Empowerment",
+        date: "2023",
         coverImage: '/youth-training/BW9A4255.jpg',
-        photoCount: 35,
+        photoCount: 8,
     },
 ];
 

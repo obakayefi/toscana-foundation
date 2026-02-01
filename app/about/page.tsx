@@ -103,7 +103,7 @@ export default function About() {
                                     <h3 className="text-2xl font-bold text-foreground mb-4" data-testid="text-mission-title">Our Mission</h3>
                                     <p className="text-muted-foreground font-body text-lg leading-relaxed">
                                         To promote sustainable and integral human development through empowerment,
-                                        education, and structured community transformation free from discrimination.
+                                        education, and structured community transformation free, from discrimination.
                                     </p>
                                 </CardContent>
                             </Card>
@@ -131,7 +131,7 @@ export default function About() {
                     title="Partner With Us"
                     description="Join us in our mission to restore dignity and empower communities across Nigeria."
                     primaryAction={{ label: "Get Involved", href: "/contact" }}
-                    secondaryAction={{ label: "Make a Donation", href: "/donate" }}
+                    secondaryAction={{ label: "Make a Donation", href: "/funding-partners#donate" }}
                 />
             </main>
             <Footer />

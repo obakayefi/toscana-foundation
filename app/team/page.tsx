@@ -2,25 +2,19 @@ import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/footer";
 import CTASection from "@/components/ui/cta-section";
 import TeamCard from "@/components/ui/team-card";
+import { boardOfTrustees } from "@/lib/data";
 
 // todo: remove mock functionality
-const boardOfTrustees = [
-    { name: "Chief Francis Obasi", position: "Chairman", phone: "07039189063", image: "/team/oga.JPG" },
-    { name: "Dr. Mrs. Elizabeth Ifeoma Obasi", position: "Secretary", phone: "07038962673", image: "/team/mrs-obasi.jpeg" },
-    { name: "Comr. Nnamdi Boniface Uche (PhD)", position: "Programmes Manager", phone: "08037655182", image: "/team/manager.jpeg" },
-    // { name: "Engr. Kingsley Ogbonna", position: "Member", phone: "08035091190" },
-    { name: "Barr. Ude Harrison", position: "Member", phone: "08114567818", image: "/team/barr-ude.jpeg" },
-    // { name: "Comr. Ogbonna Onwumere", position: "Member", phone: "08037790211" },
-];
+
 
 const staffList = [
-    { name: "Chief Francis Obasi", position: "Chairman / Founder", qualification: "WASC" },
-    { name: "Comr. Nnamdi Boniface Uche", position: "Programmes Manager", qualification: "WASC, OND, B.Ed, M.Ed, PhD" },
+    { name: "Chief Francis Obasi", position: "Chairman / Founder", qualification: "WASC", image: "/team/oga.JPG" },
+    { name: "Comr. Nnamdi Boniface Uche", position: "Programmes Manager", qualification: "WASC, OND, B.Ed, M.Ed, PhD", image: "/team/manager.jpeg" },
     { name: "Dr. Mrs. Elizabeth Ifeoma Okolie", position: "Medical Consultant", qualification: "MBBS" },
     { name: "Mrs. Esom Sussan", position: "Finance Officer", qualification: "B.Sc. Accountancy" },
     { name: "Madu Emeka Innocent", position: "ICT Technologist", qualification: "B.Tech" },
     // { name: "Engr. Kingsley Ogbonna", position: "Media / Communication Officer", qualification: "WACS, B.Engr, M.Engr" },
-    { name: "Barr. Ude Harrison", position: "Legal Adviser", qualification: "WASC, BL, ML" },
+    { name: "Barr. Ude Harrison", position: "Legal Adviser", qualification: "WASC, BL, ML", image: "/team/barr-ude.jpeg" },
     { name: "Dr. G. C. Onyebeke", position: "Referral Doctor", qualification: "MBBS" },
 ];
 

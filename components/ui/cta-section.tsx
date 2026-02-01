@@ -10,11 +10,11 @@ interface CTASectionProps {
 }
 
 export default function CTASection({
-                                       title = "Join Us in Making a Difference",
-                                       description = "Your support helps us reach more communities, transform more lives, and build a more just society for all Nigerians.",
-                                       primaryAction = { label: "Donate Now", href: "/donate" },
-                                       secondaryAction = { label: "Contact Us", href: "/contact" },
-                                   }: CTASectionProps) {
+    title = "Join Us in Making a Difference",
+    description = "Your support helps us reach more communities, transform more lives, and build a more just society for all Nigerians.",
+    primaryAction = { label: "Donate Now", href: "/funding-partners#donate" },
+    secondaryAction = { label: "Contact Us", href: "/contact" },
+}: CTASectionProps) {
     return (
         <section className="py-20 bg-green-800" data-testid="section-cta">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
