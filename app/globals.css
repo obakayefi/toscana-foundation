@@ -1,40 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-body {
-    background-color: black;
-    font-family: Helvetica, sans-serif;
-    scroll-behavior: smooth;
-}
-
-.text-muted-foreground {
-    color: #5B6A64;
-}
-
-.text-foreground {
-    color: #1a1a1a
-}
-
-.text-primary {
-    color: #005F46;
-}
-
-.bg-muted {
-    background-color: #EBF1EE;
-}
-
-.bg-card {
-    background-color: #F8F8F8;
-}
-
-.border-card-border {
-    border-color: #EEF4F1;
-}
-
-.bg-primary {
-    background-color: #005F46
-}
-
 :root {
     --button-outline: rgba(0, 0, 0, .10);
     --badge-outline: rgba(0, 0, 0, .05);
@@ -75,10 +41,10 @@ body {
     --chart-3: 154 38% 42%;
     --chart-4: 150 30% 25%;
     --chart-5: 156 55% 28%;
-    --font-sans: 'Inter', sans-serif;
-    --font-body: 'Source Sans 3', sans-serif;
-    --font-serif: Georgia, serif;
-    --font-mono: Menlo, monospace;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+    --font-heading: var(--font-outfit), ui-sans-serif, system-ui;
+    --font-body: var(--font-inter), ui-sans-serif, system-ui;
+    --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
     --radius: .5rem;
     --shadow-2xs: 0px 2px 0px 0px hsl(150 15% 25% / 0.00);
     --shadow-xs: 0px 2px 0px 0px hsl(150 15% 25% / 0.00);

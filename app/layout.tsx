@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import { HeroUIProvider } from "@heroui/system";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Toscana Foundation",
+  title: "Toscana Foundation | Empowering Communities",
   description: "Empowering people with the resources, opportunities, and support they need to build stronger futures",
 };
 
@@ -24,9 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable}   min-h-screen ${geistMono.variable} bg-blue-400`}
+        className={`${outfit.variable} ${inter.variable} font-sans antialiased min-h-screen bg-zinc-50 text-zinc-900`}
       >
         <HeroUIProvider>
           {children}

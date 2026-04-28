@@ -153,3 +153,10 @@ export const YOUTH_EMPOWERMENT_BENEFICIARIES: ClassValue[] = [
         img: "/empowerment/ani_geraldine.JPG"
     }
 ]
+
+export const BANK_DETAILS = {
+    bank: "Fidelity Bank Nigeria PLC",
+    branch: "Agbani Road Enugu Nigeria",
+    accountNumber: "4011515251",
+    accountName: "Villa Toscana Community Development Foundation",
+};

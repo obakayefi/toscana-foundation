@@ -1,12 +1,13 @@
 "use client"
+// Updated to fix Button props warnings
 import Link from "next/link";
 import { Heart, Menu } from "lucide-react";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
-import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
+import { useEffect, useState } from "react";
 
 
 export const ChevronDown = ({ fill, size, height, width, ...props }: { fill: string, size: number, height: number, width: number }) => {
@@ -228,7 +229,31 @@ const mobileLinks = [
 
 export default function Header() {
     const pathname = usePathname();
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+    const [logoClicks, setLogoClicks] = useState(0);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Secret Shortcut: Ctrl + Shift + Alt + A
+            if (e.ctrlKey && e.shiftKey && e.altKey && e.key.toLowerCase() === 'a') {
+                router.push('/admin/upload');
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [router]);
+
+    const handleLogoClick = (e: React.MouseEvent) => {
+        setLogoClicks(prev => prev + 1);
+        if (logoClicks + 1 >= 5) {
+            e.preventDefault();
+            router.push('/admin');
+            setLogoClicks(0);
+        }
+        // Reset click counter after 2 seconds
+        setTimeout(() => setLogoClicks(0), 2000);
+    };
 
     const icons = {
         chevron: <ChevronDown fill="currentColor" size={16} />,
@@ -240,154 +265,123 @@ export default function Header() {
         user: <TagUser className="text-danger" fill="currentColor" size={30} />,
     };
 
-    const navLinkClass = (link: { href: string }) => `px-3 py-2  text-sm font-medium rounded-md transition-colors ${pathname === link.href
-        ? "text-white bg-white/20"
-        : "text-white/80 hover:text-white hover:bg-white/10"
+    const navLinkClass = (link: { href: string }) => `px-4 py-2 text-sm font-heading font-semibold tracking-wide rounded-xl transition-all duration-300 ${pathname === link.href
+        ? "text-white bg-white/20 shadow-inner"
+        : "text-white/70 hover:text-white hover:bg-white/10"
         }`
 
     return (
-        <Navbar className="sticky bg-green-900 h-26 top-0 z-50" data-testid="header-main">
-            <div className="w-full  px-4 sm:px-6 lg:px-8">
+        <Navbar
+            className="fixed top-0 w-full z-50 bg-green-950/80 backdrop-blur-xl border-b border-white/5 h-24"
+            data-testid="header-main"
+            maxWidth="xl"
+        >
+            <div className="w-full flex items-center justify-between">
+                <Link
+                    href="/"
+                    className="flex items-center group"
+                    data-testid="link-logo"
+                    onClick={handleLogoClick}
+                >
+                    <div className="bg-white p-2 rounded-2xl shadow-2xl transition-transform group-hover:scale-105">
+                        <img src="/logo.png" alt="Logo" className="w-32 md:w-40 object-contain h-auto" />
+                    </div>
+                </Link>
 
-                <div className="flex items-end justify-between rounded w-full h-16 md:h-20">
-                    <Link href="/" className="flex items-center gap-2" data-testid="link-logo">
-                        <img src="/logo.png" alt="Logo" className="w-28 md:w-42 mt-10 bg-white rounded-xl object-contain h-auto" />
-                    </Link>
-
-                    <NavbarContent className="hidden mx-4 items-center text-white md:flex gap-4" justify="center">
-                        {navLinks.map((link) => (
-                            <NavbarItem key={link.href}>
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={navLinkClass(link)}
-                                    data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
-                                >
-                                    {link.label}
-                                </Link>
-                            </NavbarItem>
-                        ))}
-                        <Dropdown>
-                            <NavbarItem>
-                                <DropdownTrigger>
-                                    <Button
-                                        disableRipple
-                                        className="p-0 bg-transparent data-[hover=true]:bg-transparent"
-                                        endContent={icons.chevron}
-                                        radius="sm"
-                                        variant="light"
-                                    >
-                                        About
-                                    </Button>
-                                </DropdownTrigger>
-                            </NavbarItem>
-                            <DropdownMenu
-                                className="backdrop-blur-md max-w-fit p-4 bg-zinc-900/80 border flex flex-col border-white/20 shadow-lg rounded-lg mt-6"
-                                aria-label="ACME features"
-                                itemClasses={{
-                                    base: "gap-6",
-                                }}
-                            >
-                                <DropdownItem
-                                    key="autoscaling"
-                                // description="ACME scales apps based on demand and load"
-                                // startContent={icons.scale}
-                                >
-                                    <Link href="/our-work" className={navLinkClass({ href: '/our-work' })}>Our Work</Link>
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="autoscaling"
-                                // description="ACME scales apps based on demand and load"
-                                // startContent={icons.scale}
-                                >
-                                    <Link href='/team' className={navLinkClass({ href: '/team' })}>Team</Link>
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="autoscaling"
-                                // description="ACME scales apps based on demand and load"
-                                // startContent={icons.scale}
-                                >
-                                    <Link href="/certifications" className={navLinkClass({ href: '#' })}>Certifications</Link>
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="autoscaling"
-                                // description="ACME scales apps based on demand and load"
-                                // startContent={icons.scale}
-                                >
-                                    <Link href="/contact" className={navLinkClass({ href: '/contact' })}>Contact Us</Link>
-                                </DropdownItem>
-
-                            </DropdownMenu>
-                        </Dropdown>
-                    </NavbarContent>
-
-                    {/* <nav className="hidden lg:flex items-center h-full mt-10 gap-1" data-testid="nav-desktop">
-                        {navLinks.map((link) => (
+                <NavbarContent className="hidden lg:flex gap-2" justify="center">
+                    {navLinks.map((link) => (
+                        <NavbarItem key={link.href}>
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${pathname === link.href
-                                    ? "text-white bg-white/20"
-                                    : "text-white/80 hover:text-white hover:bg-white/10"
-                                    }`}
+                                className={navLinkClass(link)}
                                 data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
                             >
                                 {link.label}
                             </Link>
-                        ))}
-                    </nav> */}
-
-                    <div className="flex items-center h-full mt-10 gap-3">
-                        <Link href="/funding-partners#donate">
-                            <button
-                                className="hidden sm:flex border-white/30 text-green-800 bg-white  items-center  px-4 p-2 rounded-lg hover:bg-white hover:text-primary"
-                                data-testid="button-donate-header"
-                            >
-                                <Heart className="w-4 h-4 mr-2" />
-                                Donate
-                            </button>
-                        </Link>
-
-                        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                            <SheetTrigger asChild className="lg:hidden">
+                        </NavbarItem>
+                    ))}
+                    <Dropdown>
+                        <NavbarItem>
+                            <DropdownTrigger>
                                 <Button
-                                    size="icon"
+                                    className="px-4 py-2 bg-transparent flex items-center gap-1 text-white/70 hover:text-white hover:bg-white/10 text-sm font-heading font-semibold rounded-xl transition-all"
                                     variant="ghost"
-                                    className="text-white hover:bg-white/10"
-                                    data-testid="button-mobile-menu"
                                 >
-                                    <Menu className="w-5 h-5" />
+                                    About {icons.chevron}
                                 </Button>
-                            </SheetTrigger>
-                            <SheetContent side="right" className="w-72 bg-green-800 border-l-0">
-                                <div className="flex flex-col gap-4 px-4 mt-8">
-                                    {mobileLinks.map((link) => (
-                                        <Link
-                                            key={link.href}
-                                            href={link.href}
-                                            onClick={() => setIsOpen(false)}
-                                            className={`px-4 py-3 text-base font-medium rounded-md transition-colors ${pathname === link.href
-                                                ? "text-white bg-white/20"
-                                                : "text-white/80 hover:text-white hover:bg-white/10"
-                                                }`}
-                                            data-testid={`link-mobile-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    ))}
-                                    <Link href="/funding-partners#donate" onClick={() => setIsOpen(false)}>
-                                        <Button
-                                            className="w-full mt-4 bg-white text-primary hover:bg-white/90"
-                                            data-testid="button-donate-mobile"
-                                        >
-                                            <Heart className="w-4 h-4 mr-2" />
-                                            Donate Now
-                                        </Button>
+                            </DropdownTrigger>
+                        </NavbarItem>
+                        <DropdownMenu
+                            className="backdrop-blur-3xl p-2 bg-zinc-950/90 border border-white/10 shadow-2xl rounded-2xl mt-4 min-w-[200px]"
+                            aria-label="About features"
+                        >
+                            <DropdownItem key="work" textValue="Our Work">
+                                <Link href="/our-work" className="block w-full text-white/80 hover:text-white font-heading font-medium py-2 px-3 rounded-lg hover:bg-white/10 transition-colors">Our Work</Link>
+                            </DropdownItem>
+                            <DropdownItem key="team" textValue="Team">
+                                <Link href='/team' className="block w-full text-white/80 hover:text-white font-heading font-medium py-2 px-3 rounded-lg hover:bg-white/10 transition-colors">Team</Link>
+                            </DropdownItem>
+                            <DropdownItem key="cert" textValue="Certifications">
+                                <Link href="/certifications" className="block w-full text-white/80 hover:text-white font-heading font-medium py-2 px-3 rounded-lg hover:bg-white/10 transition-colors">Certifications</Link>
+                            </DropdownItem>
+                            <DropdownItem key="contact" textValue="Contact Us">
+                                <Link href="/contact" className="block w-full text-white/80 hover:text-white font-heading font-medium py-2 px-3 rounded-lg hover:bg-white/10 transition-colors">Contact Us</Link>
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </NavbarContent>
+
+                <div className="flex items-center gap-4">
+                    <Link href="/funding-partners#donate">
+                        <button
+                            className="hidden sm:flex bg-white text-green-900 px-6 py-2.5 rounded-2xl font-heading font-bold text-sm shadow-xl shadow-white/5 hover:bg-green-50 transition-all hover:scale-105 active:scale-95 items-center gap-2"
+                            data-testid="button-donate-header"
+                        >
+                            <Heart className="w-4 h-4 fill-current" />
+                            Donate
+                        </button>
+                    </Link>
+
+                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                        <SheetTrigger asChild className="lg:hidden">
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="text-white hover:bg-white/10"
+                                data-testid="button-mobile-menu"
+                            >
+                                <Menu className="w-5 h-5" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-72 bg-green-800 border-l-0">
+                            <div className="flex flex-col gap-4 px-4 mt-8">
+                                {mobileLinks.map((link) => (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={() => setIsOpen(false)}
+                                        className={`px-4 py-3 text-base font-medium rounded-md transition-colors ${pathname === link.href
+                                            ? "text-white bg-white/20"
+                                            : "text-white/80 hover:text-white hover:bg-white/10"
+                                            }`}
+                                        data-testid={`link-mobile-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
+                                    >
+                                        {link.label}
                                     </Link>
-                                </div>
-                            </SheetContent>
-                        </Sheet>
-                    </div>
+                                ))}
+                                <Link href="/funding-partners#donate" onClick={() => setIsOpen(false)}>
+                                    <Button
+                                        className="w-full mt-4 bg-white text-primary hover:bg-white/90"
+                                        data-testid="button-donate-mobile"
+                                    >
+                                        <Heart className="w-4 h-4 mr-2" />
+                                        Donate Now
+                                    </Button>
+                                </Link>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </Navbar>

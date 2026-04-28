@@ -1,14 +1,8 @@
+"use client"
 import ProgramCard from "@/components/ui/program-card";
 import { Sprout, Banknote, GraduationCap, Scale, HeartPulse, Gift, BookOpen } from "lucide-react";
-import agricultureImage from "@assets/generated_images/nigerian_community_farming_scene.png";
-import microfinanceImage from "@assets/generated_images/women_micro-finance_meeting.png";
-import capacityImage from "@assets/generated_images/youth_capacity_building_workshop.png";
-import governanceImage from "@assets/generated_images/governance_community_workshop.png";
-import healthImage from "@assets/generated_images/health_education_community_session.png";
-import charityImage from "@assets/generated_images/charity_distribution_event.png";
-import educationImage from "@assets/generated_images/inclusive_education_classroom.png";
+import { motion } from "framer-motion";
 
-// todo: remove mock functionality
 const programs = [
     {
         title: "Agriculture & Livelihood",
@@ -65,25 +59,39 @@ export default function ProgramsSection() {
     return (
         <section className="py-16 md:py-24" data-testid="section-programs">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-programs-title">
-                        What We Do
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl md:text-5xl font-heading font-extrabold text-zinc-900" data-testid="text-programs-title">
+                        Empowerment <span className="text-green-700">Pillars</span>
                     </h2>
-                    <p className="mt-4 text-lg text-muted-foreground font-body max-w-2xl mx-auto">
+                    <p className="mt-4 text-xl text-zinc-500 font-light max-w-2xl mx-auto">
                         Our programs are designed to create lasting impact across seven key areas of human development
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {programs.slice(0, 6).map((program) => (
-                        <ProgramCard key={program.title} {...program} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {programs.slice(0, 6).map((program, index) => (
+                        <motion.div
+                            key={program.title}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                        >
+                            <ProgramCard {...program} />
+                        </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-6 flex justify-center">
-                    <div className="max-w-md w-full">
+                <div className="mt-8 flex justify-center">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6, duration: 0.5 }}
+                        className="max-w-md w-full"
+                    >
                         <ProgramCard {...programs[6]} />
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

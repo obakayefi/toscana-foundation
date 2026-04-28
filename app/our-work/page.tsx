@@ -1,17 +1,10 @@
+"use client"
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/footer";
 import CTASection from "@/components/ui/cta-section";
-import { Card, CardContent } from "@/components/ui/card";
 import { Sprout, Banknote, GraduationCap, Scale, HeartPulse, Gift, BookOpen } from "lucide-react";
-import agricultureImage from "@assets/generated_images/nigerian_community_farming_scene.png";
-import microfinanceImage from "@assets/generated_images/women_micro-finance_meeting.png";
-import capacityImage from "@assets/generated_images/youth_capacity_building_workshop.png";
-//import governanceImage from "@assets/generated_images/governance_community_workshop.png";
-import healthImage from "@assets/generated_images/health_education_community_session.png";
-import charityImage from "@assets/generated_images/charity_distribution_event.png";
-import educationImage from "@assets/generated_images/inclusive_education_classroom.png";
+import { motion } from "framer-motion";
 
-// todo: remove mock functionality
 const programs = [
     {
         id: "agriculture",
@@ -66,62 +59,100 @@ const programs = [
 
 export default function OurWork() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-zinc-50">
             <Header />
             <main>
-                <section className="relative py-20 md:py-32 bg-green-900">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-3xl">
-                            <h1 className="text-4xl md:text-5xl font-bold text-white" data-testid="text-work-page-title">
-                                Our Work
+                <section className="relative min-h-[60vh] flex items-center overflow-hidden">
+                    <div className="absolute inset-0 bg-green-950">
+                        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800/80 to-transparent z-10" />
+                        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] z-10" />
+                    </div>
+                    
+                    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="max-w-3xl"
+                        >
+                            <h1 className="text-6xl md:text-8xl font-heading font-extrabold text-white leading-tight" data-testid="text-work-page-title">
+                                Our <span className="text-green-400 underline decoration-green-500/30">Impact</span>
                             </h1>
-                            <p className="mt-6 text-xl text-white/90 font-body">
-                                Discover our seven key program areas designed to create lasting impact across communities.
+                            <p className="mt-8 text-xl md:text-2xl text-green-50/90 font-light leading-relaxed max-w-2xl">
+                                Discover our core pillars of transformation—designed to empower, educate, and uplift communities across Nigeria.
                             </p>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
 
-                <section className="py-16 md:py-24">
+                <section className="py-24 md:py-32 relative overflow-hidden">
+                    {/* Background Accents */}
+                    <div className="absolute top-0 left-0 w-96 h-96 bg-green-100 rounded-full blur-3xl -z-10 opacity-30" />
+                    <div className="absolute bottom-0 right-0 w-80 h-80 bg-zinc-200 rounded-full blur-3xl -z-10 opacity-30" />
+
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="space-y-16">
+                        <div className="flex flex-col gap-24 md:gap-48">
                             {programs.map((program, index) => (
-                                <div
+                                <motion.div
                                     key={program.id}
                                     id={program.id}
-                                    className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                                        }`}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.8, ease: "easeOut" }}
+                                    className={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center ${
+                                        index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                                    }`}
                                     data-testid={`section-program-${program.id}`}
                                 >
-                                    <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                                        <img
-                                            src={program.image}
-                                            alt={program.title}
-                                            className="rounded-2xl shadow-lg w-full"
-                                        />
-                                    </div>
-                                    <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <div className="w-14 h-14 rounded-full bg-[#005F46]/10 flex items-center justify-center">
-                                                <program.icon className="w-7 h-7 text-primary" />
+                                    <div className={`lg:col-span-7 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+                                        <div className="relative group">
+                                            <div className="absolute -inset-4 bg-green-100 rounded-[2.5rem] scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 -z-10" />
+                                            <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] shadow-2xl shadow-zinc-200/50 group-hover:shadow-green-900/10 transition-all duration-500">
+                                                <img
+                                                    src={program.image}
+                                                    alt={program.title}
+                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                             </div>
-                                            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                                        </div>
+                                    </div>
+
+                                    <div className={`lg:col-span-5 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
+                                        <div className="relative">
+                                            <div className="flex items-center gap-6 mb-8">
+                                                <div className="w-16 h-16 rounded-2xl bg-green-600 text-white flex items-center justify-center shadow-xl shadow-green-600/20">
+                                                    <program.icon size={32} />
+                                                </div>
+                                                <div className="h-[2px] flex-grow bg-zinc-100 rounded-full" />
+                                            </div>
+                                            
+                                            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-zinc-900 mb-6 leading-tight">
                                                 {program.title}
                                             </h2>
+                                            
+                                            <p className="text-xl text-zinc-500 font-light leading-relaxed mb-8">
+                                                {program.description}
+                                            </p>
+
+                                            <div className="flex flex-wrap gap-3">
+                                                <span className="px-4 py-1.5 rounded-full bg-zinc-100 text-zinc-500 text-xs font-bold uppercase tracking-widest">Empowerment</span>
+                                                <span className="px-4 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-widest">Strategic Impact</span>
+                                            </div>
                                         </div>
-                                        <p className="text-lg text-muted-foreground font-body leading-relaxed">
-                                            {program.description}
-                                        </p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </section>
 
                 <CTASection
-                    title="Support Our Programs"
-                    description="Your contribution helps us expand our reach and create more impact in communities across Nigeria."
+                    title="Be Part of the Transformation"
+                    description="Your support allows us to scale these programs and reach thousands more who are waiting for an opportunity to thrive."
+                    primaryAction={{ label: "Partner With Us", href: "/contact" }}
+                    secondaryAction={{ label: "Make a Donation", href: "/funding-partners#donate" }}
                 />
             </main>
             <Footer />

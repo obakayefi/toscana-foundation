@@ -2,7 +2,11 @@ import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/Header";
 import PageJumbo from "@/components/ui/PageJumbo";
 import { EVENT_PICS } from "@/lib/data";
+import { getGalleryEventBySlug } from "@/lib/gallery";
 import { BsCalendarRangeFill } from "react-icons/bs";
+import ImagePreviewGallery from "./ImagePreviewGallery";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export async function generateStaticParams() {
     const params = EVENT_PICS.map((event: any) => ({
@@ -11,16 +15,26 @@ export async function generateStaticParams() {
     return params;
 }
 
-export default async function GalleryDetail({ params }: { params: { id: string } }) {
+export default async function GalleryDetail({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const event = EVENT_PICS.find((event: any) => event.id === id);
-    // Convert eventYears object to array format: [["2024", ...images], ["2023", ...images]]
+
+    // 1. Try fetching from database first
+    const dbEvent = await getGalleryEventBySlug(id);
+    
+    // 2. Fallback to static data
+    const staticEvent = EVENT_PICS.find((event: any) => event.id === id);
+
+    const event = dbEvent || staticEvent;
+
+    // Convert eventYears object to array format for static events
     function prepareEventImages(years: Record<string, string[]> | undefined) {
         if (!years) return [];
         return Object.entries(years).map(([year, images]) => [year, ...images]);
     }
 
-    const eventYearsArray = prepareEventImages(event?.years);
+    const eventYearsArray = dbEvent 
+        ? [[dbEvent.year, { name: dbEvent.title, caption: dbEvent.description, images: dbEvent.images.map(img => img.url) }]]
+        : prepareEventImages(staticEvent?.years);
     console.log({ event, eventYearsArray });
     return (
         <div className="min-h-screen bg-zinc-100">
@@ -28,10 +42,19 @@ export default async function GalleryDetail({ params }: { params: { id: string }
             {event ? (
                 <>
                     <PageJumbo
-                        title={event?.name}
-                        description={event?.description} />
+                        title={dbEvent ? dbEvent.title : staticEvent?.name || ''}
+                        description={dbEvent ? dbEvent.description || '' : staticEvent?.description || ''} />
                     <section className="py-16 md:py-24" data-testid="section-events">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <Link 
+                                href="/gallery" 
+                                className="inline-flex items-center gap-2 text-zinc-500 hover:text-green-700 transition-colors mb-12 font-medium group"
+                            >
+                                <div className="p-2 rounded-full bg-white shadow-sm border border-zinc-100 group-hover:bg-green-50 group-hover:border-green-100 transition-all">
+                                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                </div>
+                                <span>Back to Gallery</span>
+                            </Link>
                             {eventYearsArray.length > 0 && eventYearsArray.reverse().map((yearData) => {
                                 const [year, ...data] = yearData;
                                 const events = [...data]
@@ -49,16 +72,13 @@ export default async function GalleryDetail({ params }: { params: { id: string }
                                                         <p className="text-zinc-400">{event.caption}</p>
                                                     </div>
 
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                                        {event.images.length && event.images.map((img: string) => (
-                                                            <img
-                                                                key={idx}
-                                                                src={img}
-                                                                alt={`${event?.name} - ${year}`}
-                                                                className="w-full h-72 rounded-lg border-2 border-zinc-200 object-cover"
-                                                            />
-                                                        ))}
-                                                    </div>
+                                                    {event.images.length > 0 && (
+                                                        <ImagePreviewGallery 
+                                                            images={event.images} 
+                                                            eventName={event.name} 
+                                                            year={year} 
+                                                        />
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>
