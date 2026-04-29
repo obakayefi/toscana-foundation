@@ -10,5 +10,5 @@
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["@prisma/client", "@prisma/adapter-better-sqlite3", "better-sqlite3"]
+  included_files = ["!public/**", "!*.db", "!*.sqlite*"]
 
