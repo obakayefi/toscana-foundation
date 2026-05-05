@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Calendar, Image as ImageIcon, ArrowRight } from "lucide-react";
+import { SmoothImage } from "@/components/ui/smooth-image";
 
 interface GalleryCardProps {
     id: string;
@@ -16,10 +17,12 @@ export default function GalleryCard({ id, title, date, coverImage, photoCount }:
             <Card className="relative h-[400px] overflow-hidden rounded-3xl border-0 shadow-2xl shadow-zinc-200/50 transition-all duration-500 hover:shadow-green-900/20 active:scale-[0.98]">
                 {/* Background Image with Zoom Effect */}
                 <div className="absolute inset-0">
-                    <img
+                    <SmoothImage
                         src={coverImage}
                         alt={title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     {/* Sophisticated Multi-layer Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/20 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />

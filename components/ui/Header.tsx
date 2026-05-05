@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { Heart, Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
+import { SheetTrigger, Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
 import { useEffect, useState } from "react";
+import { SmoothImage } from "@/components/ui/smooth-image";
+import { cn } from "@/lib/utils";
 
 
 export const ChevronDown = ({ fill, size, height, width, ...props }: { fill: string, size: number, height: number, width: number }) => {
@@ -283,8 +285,14 @@ export default function Header() {
                     data-testid="link-logo"
                     onClick={handleLogoClick}
                 >
-                    <div className="bg-white p-2 rounded-2xl shadow-2xl transition-transform group-hover:scale-105">
-                        <img src="/logo.png" alt="Logo" className="w-32 md:w-40 object-contain h-auto" />
+                    <div className="bg-white p-2 rounded-2xl shadow-2xl transition-transform group-hover:scale-105 relative w-32 md:w-40 h-16 md:h-20">
+                        <SmoothImage 
+                            src="/logo.png" 
+                            alt="Logo" 
+                            fill
+                            className="object-contain" 
+                            priority
+                        />
                     </div>
                 </Link>
 
@@ -354,31 +362,75 @@ export default function Header() {
                                 <Menu className="w-5 h-5" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right" className="w-72 bg-green-800 border-l-0">
-                            <div className="flex flex-col gap-4 px-4 mt-8">
-                                {mobileLinks.map((link) => (
-                                    <Link
-                                        key={link.href}
-                                        href={link.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className={`px-4 py-3 text-base font-medium rounded-md transition-colors ${pathname === link.href
-                                            ? "text-white bg-white/20"
-                                            : "text-white/80 hover:text-white hover:bg-white/10"
-                                            }`}
-                                        data-testid={`link-mobile-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
-                                    >
-                                        {link.label}
-                                    </Link>
-                                ))}
-                                <Link href="/funding-partners#donate" onClick={() => setIsOpen(false)}>
-                                    <Button
-                                        className="w-full mt-4 bg-white text-primary hover:bg-white/90"
-                                        data-testid="button-donate-mobile"
-                                    >
-                                        <Heart className="w-4 h-4 mr-2" />
-                                        Donate Now
-                                    </Button>
-                                </Link>
+                        <SheetContent side="right" className="w-80 bg-green-950 border-l border-white/10 p-0 overflow-hidden flex flex-col">
+                            <SheetHeader className="sr-only">
+                                <SheetTitle>Navigation Menu</SheetTitle>
+                                <SheetDescription>Access all pages of the Villa Toscana Foundation website.</SheetDescription>
+                            </SheetHeader>
+                            {/* Decorative Background */}
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-[100px] -z-10" />
+                            <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-[80px] -z-10" />
+
+                            <div className="flex-1 overflow-y-auto pt-20 pb-10 px-4">
+                                <div className="flex flex-col gap-1">
+                                    {[
+                                        { href: "/", label: "Home" },
+                                        { href: "/about", label: "About Us" },
+                                        { href: "/our-work", label: "Our Work" },
+                                        { href: "/scholarships", label: "Scholarships" },
+                                        { href: "/certifications", label: "Certifications" },
+                                        { href: "/gallery", label: "Gallery" },
+                                        { href: "/team", label: "Our Team" },
+                                        { href: "/funding-partners", label: "Funding & Partners" },
+                                        { href: "/contact", label: "Contact" },
+                                        { href: "/funding-partners#donate", label: "Donate Now", isSpecial: true },
+                                    ].map((link, idx) => {
+                                        // Dynamically choosing icons based on label
+                                        const getIcon = (label: string) => {
+                                            const iconProps = { fill: "currentColor", size: 20, height: 20, width: 20 };
+                                            switch(label) {
+                                                case "Home": return <ChevronDown className="rotate-90" {...iconProps} />;
+                                                case "About Us": return <Activity {...iconProps} />;
+                                                case "Our Work": return <Flash {...iconProps} />;
+                                                case "Scholarships": return <Server {...iconProps} />;
+                                                case "Certifications": return <Lock {...iconProps} />;
+                                                case "Gallery": return <TagUser {...iconProps} />;
+                                                case "Our Team": return <ChevronDown className="rotate-90" {...iconProps} />;
+                                                case "Funding & Partners": return <Scale {...iconProps} />;
+                                                case "Contact": return <Activity {...iconProps} />;
+                                                case "Donate Now": return <Heart size={20} className="fill-current" />;
+                                                default: return <Heart size={20} />;
+                                            }
+                                        }
+
+                                        const isActive = pathname === link.href;
+                                        const isSpecial = (link as any).isSpecial;
+
+                                        return (
+                                            <Link
+                                                key={link.href}
+                                                href={link.href}
+                                                onClick={() => setIsOpen(false)}
+                                                className={cn(
+                                                    "flex items-center gap-4 px-5 py-4 text-sm font-heading font-semibold rounded-2xl transition-all duration-300",
+                                                    isActive 
+                                                        ? "text-white bg-green-800 shadow-lg shadow-green-900/50" 
+                                                        : isSpecial
+                                                            ? "text-white bg-green-700/50 hover:bg-green-700 shadow-md mt-4"
+                                                            : "text-white/60 hover:text-white hover:bg-white/5"
+                                                )}
+                                            >
+                                                <div className={cn(
+                                                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                                                    isActive ? "bg-white/20" : isSpecial ? "bg-white/10" : "bg-white/5 group-hover:bg-white/10"
+                                                )}>
+                                                    {getIcon(link.label)}
+                                                </div>
+                                                {link.label}
+                                            </Link>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </SheetContent>
                     </Sheet>

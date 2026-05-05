@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { SmoothImage } from "@/components/ui/smooth-image";
 
 export const DirectionAwareHover = ({
   imageUrl,
@@ -86,15 +87,15 @@ export const DirectionAwareHover = ({
               ease: "easeOut",
             }}
           >
-            <img
+            <SmoothImage
               alt="image"
               className={cn(
                 "h-full w-full object-cover scale-[1.15]",
                 imageClassName
               )}
-              width="1000"
-              height="1000"
+              fill
               src={imageUrl}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </motion.div>
           <motion.div

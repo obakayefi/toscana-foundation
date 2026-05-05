@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import { HeroUIProvider } from "@heroui/system";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -25,12 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${outfit.variable} ${inter.variable} font-sans antialiased min-h-screen bg-zinc-50 text-zinc-900`}
       >
         <HeroUIProvider>
-          {children}
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
         </HeroUIProvider>
       </body>
     </html>

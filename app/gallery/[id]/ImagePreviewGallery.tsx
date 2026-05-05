@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
+import { SmoothImage } from "@/components/ui/smooth-image";
 
 interface ImagePreviewGalleryProps {
     images: string[];
@@ -44,7 +44,7 @@ export default function ImagePreviewGallery({ images, eventName, year }: ImagePr
                         onClick={() => setSelectedIndex(idx)}
                     >
                         <div className="relative w-full h-72 rounded-xl border border-zinc-200 overflow-hidden bg-zinc-200 shadow-sm group-hover:shadow-md transition-all">
-                            <Image
+                            <SmoothImage
                                 src={img}
                                 alt={`${eventName} - ${year} - ${idx + 1}`}
                                 fill
@@ -84,7 +84,7 @@ export default function ImagePreviewGallery({ images, eventName, year }: ImagePr
                             transition={{ duration: 0.2 }}
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <Image
+                            <SmoothImage
                                 src={images[selectedIndex]}
                                 alt={`${eventName} - ${year} - ${selectedIndex + 1}`}
                                 fill

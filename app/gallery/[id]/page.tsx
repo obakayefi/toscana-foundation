@@ -66,7 +66,7 @@ export default async function GalleryDetail({ params }: { params: Promise<{ id: 
                                         {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> */}
                                         <div className="flex flex-col gap-10">
                                             {events.map((event: any, idx: number) => (
-                                                <div className="border-b-3 border-zinc-200 pb-6">
+                                                <div key={idx} className="border-b-3 border-zinc-200 pb-6">
                                                     <div className="my-6">
                                                         <h2 className="text-2xl text-zinc-700">{event.name}</h2>
                                                         <p className="text-zinc-400">{event.caption}</p>

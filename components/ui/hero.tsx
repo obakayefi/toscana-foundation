@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/smooth-image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Heart, ArrowRight } from "lucide-react";
@@ -15,8 +15,8 @@ export default function Hero() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 className="absolute inset-0 z-0"
             >
-                <Image
-                    src="/projects/IMG_3841.JPG"
+                <SmoothImage
+                    src="https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777366388/toscana-gallery/ydg2tvb6red9b0eoo31t.jpg"
                     alt="Villa Toscana Foundation Hero"
                     fill
                     priority
@@ -26,7 +26,7 @@ export default function Hero() {
                 {/* Combined Dark Overlay */}
                 <div className="absolute inset-0 bg-black/40" />
             </motion.div>
-            
+
             {/* Overlay Gradient */}
             <div className="absolute inset-0 z-0 bg-gradient-to-r from-green-950/95 via-green-950/70 to-green-950/30" />
 
@@ -43,7 +43,7 @@ export default function Hero() {
                             <br />
                             Empowering <span className="text-green-400">Communities</span>.
                             <br />
-                            <motion.span 
+                            <motion.span
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.5, duration: 1 }}
@@ -54,7 +54,7 @@ export default function Hero() {
                         </h1>
                     </motion.div>
 
-                    <motion.p 
+                    <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
@@ -65,7 +65,7 @@ export default function Hero() {
                         through empowerment, health education, and humanitarian support.
                     </motion.p>
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
@@ -97,11 +97,11 @@ export default function Hero() {
             </div>
 
             {/* Decorative Element */}
-            <motion.div 
-                animate={{ 
+            <motion.div
+                animate={{
                     y: [0, -10, 0],
                 }}
-                transition={{ 
+                transition={{
                     duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut"

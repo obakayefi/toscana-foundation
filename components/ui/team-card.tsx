@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User } from "lucide-react";
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/smooth-image";
 
 interface TeamCardProps {
     name: string;
@@ -25,7 +25,7 @@ export default function TeamCard({ name, position, qualification, phone, image }
                     <div className="absolute inset-0 bg-green-100 rounded-full scale-110 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="w-32 h-32 border-4 border-white shadow-lg relative z-10 rounded-full overflow-hidden bg-zinc-100">
                         {image ? (
-                            <Image 
+                            <SmoothImage 
                                 src={image} 
                                 alt={name} 
                                 fill 

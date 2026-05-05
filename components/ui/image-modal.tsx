@@ -1,6 +1,7 @@
 "use client"
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { SmoothImage } from "@/components/ui/smooth-image";
 import { useEffect } from "react";
 
 interface ImageModalProps {
@@ -51,11 +52,13 @@ export default function ImageModal({ isOpen, onClose, imageUrl, title }: ImageMo
                             <X size={24} />
                         </button>
                         
-                        <div className="relative w-full max-h-[85vh] flex items-center justify-center">
-                            <img 
+                        <div className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center">
+                            <SmoothImage 
                                 src={imageUrl} 
                                 alt={title} 
-                                className="max-w-full max-h-[85vh] object-contain rounded-xl"
+                                fill
+                                className="object-contain rounded-xl"
+                                sizes="100vw"
                             />
                         </div>
                         

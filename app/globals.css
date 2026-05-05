@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "lenis/dist/lenis.css";
 
 :root {
     --button-outline: rgba(0, 0, 0, .10);

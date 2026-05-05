@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, type LucideIcon } from "lucide-react";
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/smooth-image";
 
 interface ProgramCardProps {
     title: string;
@@ -15,7 +15,7 @@ export default function ProgramCard({ title, description, icon: Icon, image, hre
     return (
         <Card className="overflow-hidden py-0 hover-elevate group" data-testid={`card-program-${title.toLowerCase().replace(/\s+/g, "-")}`}>
             <div className="aspect-video relative overflow-hidden bg-zinc-100">
-                <Image
+                <SmoothImage
                     src={image}
                     alt={title}
                     fill

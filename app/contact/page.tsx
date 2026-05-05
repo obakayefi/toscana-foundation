@@ -1,9 +1,9 @@
 "use client"
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/footer";
-import ContactForm from "@/components/ui/contact-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Mail, Phone, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // todo: remove mock functionality
 const contactInfo = {
@@ -59,8 +59,9 @@ export default function Contact() {
                 </section>
 
                 <section className="py-24 md:py-32 relative overflow-hidden" data-testid="section-contact">
-                    <div className="absolute top-0 left-0 w-96 h-96 bg-green-100 rounded-full blur-3xl -z-10 opacity-30" />
-                    <div className="absolute bottom-0 right-0 w-80 h-80 bg-zinc-200 rounded-full blur-3xl -z-10 opacity-30" />
+                    {/* Background Orbs */}
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-50 rounded-full blur-[120px] -z-10 opacity-60" />
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-zinc-100 rounded-full blur-[100px] -z-10 opacity-50" />
 
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center mb-16">
@@ -79,32 +80,58 @@ export default function Contact() {
                         >
                             {[
                                 { icon: MapPin, title: "Our Headquarters", content: contactInfo.address, testId: "card-contact-address" },
-                                { icon: Mail, title: "Digital Mailbox", content: contactInfo.email, isLink: true, href: `mailto:${contactInfo.email}`, testId: "card-contact-email" },
-                                { icon: Phone, title: "Direct Lines", content: contactInfo.phones.join(" / "), testId: "card-contact-phone" },
+                                { 
+                                    icon: Mail, 
+                                    title: "Digital Mailbox", 
+                                    content: contactInfo.email, 
+                                    isLink: true, 
+                                    href: `mailto:${contactInfo.email}`, 
+                                    testId: "card-contact-email",
+                                    className: "text-base sm:text-lg md:text-xl lg:text-2xl whitespace-nowrap overflow-visible" // Larger but still single line
+                                },
+                                { 
+                                    icon: Phone, 
+                                    title: "Direct Lines", 
+                                    content: (
+                                        <div className="flex flex-col gap-1">
+                                            {contactInfo.phones.map((phone, i) => (
+                                                <a key={i} href={`tel:${phone}`} className="hover:text-green-700 transition-colors">
+                                                    {phone}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    ), 
+                                    testId: "card-contact-phone",
+                                    isLink: false // Handled internally
+                                },
                                 { 
                                     icon: Clock, 
                                     title: "Operational Hours", 
                                     content: (
                                         <div className="flex flex-col gap-1">
                                             <span>Monday - Friday</span>
-                                            <span className="text-green-600 text-sm">9:00 AM - 5:00 PM</span>
+                                            <span className="text-green-600 text-sm font-bold">9:00 AM - 5:00 PM</span>
                                         </div>
                                     ), 
                                     testId: "card-contact-hours" 
                                 },
-                            ].map((item, idx) => (
+                            ].map((item: any, idx) => (
                                 <motion.div key={idx} variants={itemVariants}>
-                                    <Card className="h-full border-zinc-100 shadow-xl shadow-zinc-200/50 rounded-[2.5rem] hover:shadow-2xl transition-all group overflow-hidden" data-testid={item.testId}>
-                                        <CardContent className="p-8 flex flex-col items-center text-center gap-6">
-                                            <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-green-600">
-                                                <item.icon className="w-8 h-8 text-green-700 transition-colors group-hover:text-white" />
+                                    <Card className="h-full border-zinc-100/80 shadow-xl shadow-zinc-200/40 rounded-[2.5rem] hover:shadow-2xl transition-all group overflow-hidden bg-white/50 backdrop-blur-sm" data-testid={item.testId}>
+                                        <CardContent className="p-8 sm:p-10 flex flex-col items-center text-center gap-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:bg-green-600 group-hover:scale-110 shadow-sm">
+                                                <item.icon className="w-8 h-8 text-green-700 transition-colors duration-500 group-hover:text-white" />
                                             </div>
-                                            <div>
-                                                <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">{item.title}</h3>
+                                            <div className="flex-1 min-w-0 w-full overflow-visible">
+                                                <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3">{item.title}</h3>
                                                 {item.isLink ? (
-                                                    <a href={item.href} className="text-xl font-heading font-bold text-zinc-900 hover:text-green-700 transition-colors break-all">{item.content}</a>
+                                                    <a href={item.href} className={cn("font-heading font-extrabold text-zinc-900 hover:text-green-700 transition-colors block", item.className || "text-xl md:text-2xl")}>
+                                                        {item.content}
+                                                    </a>
                                                 ) : (
-                                                    <div className="text-xl font-heading font-bold text-zinc-900 leading-tight">{item.content}</div>
+                                                    <div className={cn("font-heading font-extrabold text-zinc-900 leading-snug", item.className || "text-xl md:text-2xl")}>
+                                                        {item.content}
+                                                    </div>
                                                 )}
                                             </div>
                                         </CardContent>
