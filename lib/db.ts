@@ -12,13 +12,14 @@ const prismaClientSingleton = () => {
     const normalizedPath = dbPath.replace(/\\/g, "/");
     const adapter = new PrismaBetterSqlite3({ url: `file:${normalizedPath}` });
 
-    return new PrismaClient({
+    const client = new PrismaClient({
       adapter,
       log: ["error"]
     });
-  } catch (err) {
+    return client;
+  } catch (err: any) {
     console.error("PRISMA SINGLETON ERROR:", err);
-    return new PrismaClient();
+    throw new Error(`Failed to initialize Prisma: ${err.message}`);
   }
 };
 

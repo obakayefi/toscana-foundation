@@ -8,49 +8,49 @@ const programs = [
         title: "Agriculture & Livelihood",
         description: "Supporting sustainable farming practices and livelihood development for rural communities.",
         icon: Sprout,
-        image: '/projects/IMG_3866.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777366281/toscana-gallery/if5wluaoypqvfilqpwz4.webp',
         href: "/our-work#agriculture",
     },
     {
         title: "Micro-Financing",
         description: "Providing financial support and training for small-scale entrepreneurs and women-led businesses.",
         icon: Banknote,
-        image: '/projects/IMG_3845.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777746225/xmxexeffrusenrkjqodd_nfxk33.webp',
         href: "/our-work#microfinance",
     },
     {
         title: "Capacity Building",
         description: "Developing skills and empowering individuals for sustainable community transformation.",
         icon: GraduationCap,
-        image: '/projects/IMG_3868.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777746231/digxbh1uiixoee4gdier_hythkp.webp',
         href: "/our-work#capacity",
     },
     {
         title: "Good Governance & Rights",
         description: "Promoting accountability, civic engagement, and human rights awareness across communities.",
         icon: Scale,
-        image: '/projects/IMG_3865.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777746227/ishxl7s0rfmrjwle7fum_tjweub.webp',
         href: "/our-work#governance",
     },
     {
         title: "Health & Environment",
         description: "Advancing health education and environmental sustainability for community wellbeing.",
         icon: HeartPulse,
-        image: '/projects/IMG_3874.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777366390/toscana-gallery/nfaew53yuw3umyv2wysj.jpg',
         href: "/our-work#health",
     },
     {
         title: "Charity",
         description: "Providing humanitarian support to the less privileged and internally displaced persons.",
         icon: Gift,
-        image: '/projects/charity.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777746204/bwo7cds9xtqgzx622nq1_wxkape.webp',
         href: "/our-work#charity",
     },
     {
         title: "Inclusive Education",
         description: "Creating educational opportunities for all, including persons with disabilities.",
         icon: BookOpen,
-        image: '/projects/IMG_3850.JPG',
+        image: 'https://res.cloudinary.com/dmwfdyxkt/image/upload/v1777366388/toscana-gallery/ydg2tvb6red9b0eoo31t.jpg',
         href: "/our-work#education",
     },
 ];
@@ -83,7 +83,7 @@ export default function ProgramsSection() {
                 </div>
 
                 <div className="mt-8 flex justify-center">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}

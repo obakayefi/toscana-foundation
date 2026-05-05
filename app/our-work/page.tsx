@@ -69,14 +69,14 @@ export default function OurWork() {
                         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] z-10" />
                     </div>
 
-                    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 pb-20 sm:py-32">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                             className="max-w-3xl"
                         >
-                            <h1 className="text-6xl md:text-8xl font-heading font-extrabold text-white leading-tight" data-testid="text-work-page-title">
+                            <h1 className="text-[3.25rem] leading-[1.1] sm:text-7xl md:text-8xl font-heading font-extrabold text-white" data-testid="text-work-page-title">
                                 Our <span className="text-green-400 underline decoration-green-500/30">Impact</span>
                             </h1>
                             <p className="mt-8 text-xl md:text-2xl text-green-50/90 font-light leading-relaxed max-w-2xl">

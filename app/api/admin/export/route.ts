@@ -9,11 +9,25 @@ export async function GET() {
     }
 
     try {
-        const galleryEvents = await prisma.galleryEvent.findMany({
+        const p = prisma as any;
+        
+        // Try to find the models with different casings if needed
+        const galleryEventModel = p.galleryEvent || p.galleryevent || p.GalleryEvent;
+        const beneficiaryModel = p.beneficiary || p.beneficiary || p.Beneficiary;
+
+        if (!galleryEventModel || !beneficiaryModel) {
+            console.error("Models missing from Prisma client:", { 
+                galleryEvent: !!galleryEventModel, 
+                beneficiary: !!beneficiaryModel 
+            });
+            throw new Error(`Prisma models not found. Available: ${Object.keys(p).filter(k => !k.startsWith('$')).join(', ')}`);
+        }
+
+        const galleryEvents = await galleryEventModel.findMany({
             include: { images: true }
         });
 
-        const beneficiaries = await prisma.beneficiary.findMany();
+        const beneficiaries = await beneficiaryModel.findMany();
 
         return NextResponse.json({
             galleryEvents,
@@ -21,8 +35,12 @@ export async function GET() {
             exportedAt: new Date().toISOString(),
             version: "1.0"
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Export API Error:", error);
-        return NextResponse.json({ error: "Failed to export data" }, { status: 500 });
+        return NextResponse.json({ 
+            error: "Failed to export data", 
+            message: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        }, { status: 500 });
     }
 }
