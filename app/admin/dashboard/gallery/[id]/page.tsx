@@ -1,14 +1,12 @@
-import { prisma } from "@/lib/db";
+import { readData } from "@/lib/json-db";
 import { notFound } from "next/navigation";
 import EditEventClient from "./EditEventClient";
 
 export default async function EditGalleryEventPage({ params }: { params: { id: string } }) {
-    const eventId = await Promise.resolve(params).then(p => p.id); // Resolving params in Next.js 15+
+    const eventId = await Promise.resolve(params).then(p => p.id);
     
-    const event = await prisma.galleryEvent.findUnique({
-        where: { id: eventId },
-        include: { images: true }
-    });
+    const data = await readData();
+    const event = data.galleryEvents.find(e => e.id === eventId);
 
     if (!event) return notFound();
 

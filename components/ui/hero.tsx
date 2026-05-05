@@ -31,7 +31,7 @@ export default function Hero() {
             <div className="absolute inset-0 z-0 bg-gradient-to-r from-green-950/95 via-green-950/70 to-green-950/30" />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-44 pb-20 sm:py-32">
-                <div className="max-w-4xl">
+                <div className="max-w-5xl">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -40,9 +40,9 @@ export default function Hero() {
                         <h1 className="text-[2.75rem] leading-[1.15] sm:text-6xl md:text-7xl lg:text-8xl font-heading font-extrabold text-white tracking-tight"
                             data-testid="text-hero-headline">
                             Restoring <span className="text-green-400">Dignity</span>.
-                            <br />
+                            <br className="sm:hidden" />{" "}
                             Empowering <span className="text-green-400">Communities</span>.
-                            <br />
+                            <br className="sm:hidden" />{" "}
                             <motion.span
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -58,7 +58,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                        className="mt-10 sm:mt-12 text-xl sm:text-2xl text-zinc-200 font-light max-w-2xl leading-relaxed"
+                        className="mt-10 sm:mt-12 text-xl sm:text-2xl text-zinc-200 font-light max-w-3xl leading-relaxed"
                         data-testid="text-hero-subheadline"
                     >
                         Villa Toscana Community Development Foundation is committed to reshaping lives

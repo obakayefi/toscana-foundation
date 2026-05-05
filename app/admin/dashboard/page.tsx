@@ -1,11 +1,11 @@
-import { prisma } from "@/lib/db";
+import { readData } from "@/lib/json-db";
 import Link from "next/link";
 import { Image as ImageIcon, GraduationCap, ArrowRight, Download, Database } from "lucide-react";
 
 export default async function AdminDashboardOverview() {
-    const galleryCount = await prisma.galleryEvent.count();
-    // Assuming a Scholarship model exists, but we'll add it to the schema next
-    // const scholarshipCount = await prisma.scholarship.count();
+    const data = await readData();
+    const galleryCount = data.galleryEvents.length;
+    const scholarshipCount = data.beneficiaries.length;
 
     return (
         <div className="space-y-8">
@@ -34,7 +34,7 @@ export default async function AdminDashboardOverview() {
                         <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-700">
                             <GraduationCap size={24} />
                         </div>
-                        <span className="text-2xl font-bold text-zinc-900">-</span>
+                        <span className="text-2xl font-bold text-zinc-900">{scholarshipCount}</span>
                     </div>
                     <h3 className="font-semibold text-zinc-900 mb-1">Scholarships</h3>
                     <p className="text-sm text-zinc-500 mb-4">Manage scholarship listings and display order.</p>

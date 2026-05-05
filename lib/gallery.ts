@@ -1,13 +1,12 @@
 'use server';
 
-import { prisma } from "@/lib/db";
+import { readData, writeData, GalleryEvent } from "@/lib/json-db";
 import cloudinary from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 
 export async function uploadGalleryEvent(formData: FormData) {
     const adminSecret = formData.get('adminSecret') as string;
 
-    // Simple "lock" implementation using an environment variable
     if (adminSecret !== process.env.ADMIN_SECRET) {
         throw new Error('Unauthorized: Invalid Admin Secret');
     }
@@ -18,7 +17,6 @@ export async function uploadGalleryEvent(formData: FormData) {
     const description = formData.get('description') as string;
     const imageFiles = formData.getAll('images') as File[];
 
-    // Upload images to Cloudinary via stream
     const uploadedImages = await Promise.all(
         imageFiles.map(async (file) => {
             const arrayBuffer = await file.arrayBuffer();
@@ -36,39 +34,40 @@ export async function uploadGalleryEvent(formData: FormData) {
         })
     );
 
-    // Create the record in SQLite
-    await prisma.galleryEvent.create({
-        data: {
-            title,
-            year,
-            slug,
-            description,
-            images: {
-                create: uploadedImages.map(img => ({
-                    url: img.url,
-                    publicId: img.publicId
-                }))
-            }
-        }
-    });
+    const data = await readData();
+    const newEvent: GalleryEvent = {
+        id: crypto.randomUUID(),
+        title,
+        year,
+        slug,
+        description,
+        images: uploadedImages.map(img => ({
+            id: crypto.randomUUID(),
+            url: img.url,
+            publicId: img.publicId
+        })),
+        createdAt: new Date().toISOString()
+    };
+
+    data.galleryEvents.push(newEvent);
+    data.updatedAt = new Date().toISOString();
+    await writeData(data);
 
     revalidatePath('/gallery');
     return { success: true };
 }
 
 export async function getGalleryEvents() {
-    return await prisma.galleryEvent.findMany({
-        include: {
-            images: { take: 1 },
-            _count: { select: { images: true } }
-        },
-        orderBy: { createdAt: 'desc' }
-    });
+    const data = await readData();
+    return data.galleryEvents
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map(event => ({
+            ...event,
+            _count: { images: event.images.length }
+        }));
 }
 
 export async function getGalleryEventBySlug(slug: string) {
-    return await prisma.galleryEvent.findUnique({
-        where: { slug },
-        include: { images: true }
-    });
-}
+    const data = await readData();
+    return data.galleryEvents.find(e => e.slug === slug) || null;
+}

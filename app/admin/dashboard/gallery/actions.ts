@@ -1,6 +1,6 @@
 'use server';
 
-import { prisma } from "@/lib/db";
+import { readData, writeData } from "@/lib/json-db";
 import cloudinary from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 import { verifyAdmin } from "../../actions";
@@ -8,28 +8,32 @@ import { verifyAdmin } from "../../actions";
 export async function deleteGalleryEvent(eventId: string) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
     
-    // Deletes cascade if configured in Prisma schema, otherwise we should delete images first
-    // In schema.prisma we have `onDelete: Cascade` for eventId in Image
-    await prisma.galleryEvent.delete({
-        where: { id: eventId }
-    });
+    const data = await readData();
+    data.galleryEvents = data.galleryEvents.filter(e => e.id !== eventId);
+    
+    data.updatedAt = new Date().toISOString();
+    await writeData(data);
     
     revalidatePath('/gallery');
     revalidatePath('/admin/dashboard/gallery');
     return { success: true };
 }
 
-export async function updateGalleryEvent(eventId: string, data: { title: string, year: string, description: string }) {
+export async function updateGalleryEvent(eventId: string, updateData: { title: string, year: string, description: string }) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
     
-    await prisma.galleryEvent.update({
-        where: { id: eventId },
-        data: {
-            title: data.title,
-            year: data.year,
-            description: data.description
-        }
-    });
+    const data = await readData();
+    const index = data.galleryEvents.findIndex(e => e.id === eventId);
+    if (index === -1) throw new Error("Event not found");
+    
+    data.galleryEvents[index] = {
+        ...data.galleryEvents[index],
+        ...updateData,
+        updatedAt: new Date().toISOString()
+    };
+    
+    data.updatedAt = new Date().toISOString();
+    await writeData(data);
     
     revalidatePath('/gallery');
     revalidatePath(`/admin/dashboard/gallery/${eventId}`);
@@ -41,7 +45,6 @@ export async function addImagesToEvent(eventId: string, formData: FormData) {
     
     const files = formData.getAll("images") as File[];
     if (!files || files.length === 0) throw new Error("No images provided");
-
 
     const uploadedImages = await Promise.all(
         files.map(async (file) => {
@@ -60,14 +63,20 @@ export async function addImagesToEvent(eventId: string, formData: FormData) {
         })
     );
 
-    // Create image records
-    await prisma.image.createMany({
-        data: uploadedImages.map(img => ({
-            url: img.url,
-            publicId: img.publicId,
-            eventId: eventId
-        }))
-    });
+    const data = await readData();
+    const eventIndex = data.galleryEvents.findIndex(e => e.id === eventId);
+    if (eventIndex === -1) throw new Error("Event not found");
+
+    const newImages = uploadedImages.map(img => ({
+        id: crypto.randomUUID(),
+        url: img.url,
+        publicId: img.publicId
+    }));
+
+    data.galleryEvents[eventIndex].images.push(...newImages);
+    data.galleryEvents[eventIndex].updatedAt = new Date().toISOString();
+    data.updatedAt = new Date().toISOString();
+    await writeData(data);
 
     revalidatePath('/gallery');
     revalidatePath(`/admin/dashboard/gallery/${eventId}`);
@@ -77,9 +86,14 @@ export async function addImagesToEvent(eventId: string, formData: FormData) {
 export async function deleteImage(imageId: string, eventId: string) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
     
-    await prisma.image.delete({
-        where: { id: imageId }
-    });
+    const data = await readData();
+    const eventIndex = data.galleryEvents.findIndex(e => e.id === eventId);
+    if (eventIndex === -1) throw new Error("Event not found");
+
+    data.galleryEvents[eventIndex].images = data.galleryEvents[eventIndex].images.filter(img => img.id !== imageId);
+    data.galleryEvents[eventIndex].updatedAt = new Date().toISOString();
+    data.updatedAt = new Date().toISOString();
+    await writeData(data);
     
     revalidatePath('/gallery');
     revalidatePath(`/admin/dashboard/gallery/${eventId}`);

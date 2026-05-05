@@ -1,12 +1,15 @@
-import { prisma } from "@/lib/db";
+import { readData } from "@/lib/json-db";
 import Link from "next/link";
 import { Plus, Edit2, Trash2, Image as ImageIcon } from "lucide-react";
 
 export default async function AdminGalleryPage() {
-    const events = await prisma.galleryEvent.findMany({
-        include: { _count: { select: { images: true } } },
-        orderBy: { year: 'desc' }
-    });
+    const data = await readData();
+    const events = data.galleryEvents
+        .sort((a, b) => b.year.localeCompare(a.year))
+        .map(e => ({
+            ...e,
+            _count: { images: e.images.length }
+        }));
 
     return (
         <div className="space-y-8">

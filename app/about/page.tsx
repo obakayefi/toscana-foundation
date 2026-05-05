@@ -47,7 +47,7 @@ export default function About() {
             <main>
                 <section className="relative pt-60 pb-20 sm:py-32 bg-green-900">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="max-w-3xl">
+                        <div className="max-w-5xl">
                             <h1 className="text-5xl md:text-7xl font-bold text-white" data-testid="text-about-page-title">
                                 About Us
                             </h1>

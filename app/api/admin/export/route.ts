@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { readData } from "@/lib/json-db";
 import { verifyAdmin } from "@/app/admin/actions";
 import { NextResponse } from "next/server";
 
@@ -9,38 +9,45 @@ export async function GET() {
     }
 
     try {
-        const p = prisma as any;
-        
-        // Try to find the models with different casings if needed
-        const galleryEventModel = p.galleryEvent || p.galleryevent || p.GalleryEvent;
-        const beneficiaryModel = p.beneficiary || p.beneficiary || p.Beneficiary;
+        const data = await readData();
 
-        if (!galleryEventModel || !beneficiaryModel) {
-            console.error("Models missing from Prisma client:", { 
-                galleryEvent: !!galleryEventModel, 
-                beneficiary: !!beneficiaryModel 
-            });
-            throw new Error(`Prisma models not found. Available: ${Object.keys(p).filter(k => !k.startsWith('$')).join(', ')}`);
-        }
+        // Transform relative paths to full CDN URLs if needed
+        // Assuming the base URL is provided via env or just use a placeholder if not found
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://toscanafoundation.org";
+        const cloudinaryBase = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`;
 
-        const galleryEvents = await galleryEventModel.findMany({
-            include: { images: true }
-        });
+        const transformImg = (img: string | null) => {
+            if (!img) return null;
+            if (img.startsWith('http')) return img;
+            // If it's a local path, we assume it's hosted on the site or has been uploaded to Cloudinary
+            // For the backup, the user specifically wants CDN files.
+            // If we have a Cloudinary setup, we might want to point to Cloudinary versions.
+            return `${baseUrl}${img}`;
+        };
 
-        const beneficiaries = await beneficiaryModel.findMany();
-
-        return NextResponse.json({
-            galleryEvents,
-            beneficiaries,
+        const exportData = {
+            ...data,
+            beneficiaries: data.beneficiaries.map(b => ({
+                ...b,
+                img: transformImg(b.img)
+            })),
+            galleryEvents: data.galleryEvents.map(e => ({
+                ...e,
+                images: e.images.map(img => ({
+                    ...img,
+                    url: transformImg(img.url)
+                }))
+            })),
             exportedAt: new Date().toISOString(),
-            version: "1.0"
-        });
+            version: "2.0 (JSON-based)"
+        };
+
+        return NextResponse.json(exportData);
     } catch (error: any) {
         console.error("Export API Error:", error);
         return NextResponse.json({ 
             error: "Failed to export data", 
-            message: error.message,
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            message: error.message 
         }, { status: 500 });
     }
 }

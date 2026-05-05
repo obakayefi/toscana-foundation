@@ -1,16 +1,14 @@
-import { prisma } from "@/lib/db";
+import { readData } from "@/lib/json-db";
 import ScholarshipsClient from "./ScholarshipsClient";
 
 export default async function ScholarshipsPage() {
     let beneficiaries = [];
     
     try {
-        beneficiaries = await prisma.beneficiary.findMany({
-            orderBy: { sortOrder: 'asc' }
-        });
+        const data = await readData();
+        beneficiaries = data.beneficiaries.sort((a, b) => a.sortOrder - b.sortOrder);
     } catch (error) {
-        console.error("Failed to fetch beneficiaries. Did you run 'npx prisma db push'?", error);
-        // Fallback to empty array if the DB table doesn't exist yet
+        console.error("Failed to fetch beneficiaries from JSON:", error);
     }
 
     return <ScholarshipsClient beneficiaries={beneficiaries} />;
