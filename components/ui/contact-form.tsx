@@ -49,22 +49,28 @@ export default function ContactForm() {
     };
 
     return (
-        <Card data-testid="card-contact-form">
-            <CardHeader>
-                <CardTitle>Send Us a Message</CardTitle>
+        <Card className="border-none shadow-2xl shadow-green-900/10 rounded-[3rem] overflow-hidden" data-testid="card-contact-form">
+            <CardHeader className="bg-green-900 p-8 md:p-12 text-white">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs font-bold uppercase tracking-widest text-green-100/70">Ready to Help</span>
+                </div>
+                <CardTitle className="text-3xl md:text-4xl font-heading font-extrabold leading-tight">Send Us a <span className="text-green-400">Message</span></CardTitle>
+                <p className="mt-2 text-green-50/70 font-light">We typically respond within 24 hours.</p>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-8 md:p-12 bg-white">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <FormField
                                 control={form.control}
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Full Name</FormLabel>
+                                        <FormLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Full Name</FormLabel>
                                         <FormControl>
                                             <Input
+                                                className="h-14 rounded-2xl border-zinc-100 bg-zinc-50 px-6 focus:bg-white transition-all"
                                                 placeholder="Your name"
                                                 {...field}
                                                 data-testid="input-contact-name"
@@ -79,9 +85,10 @@ export default function ContactForm() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email Address</FormLabel>
+                                        <FormLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Email Address</FormLabel>
                                         <FormControl>
                                             <Input
+                                                className="h-14 rounded-2xl border-zinc-100 bg-zinc-50 px-6 focus:bg-white transition-all"
                                                 type="email"
                                                 placeholder="your@email.com"
                                                 {...field}
@@ -98,9 +105,10 @@ export default function ContactForm() {
                             name="subject"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Subject</FormLabel>
+                                    <FormLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Subject</FormLabel>
                                     <FormControl>
                                         <Input
+                                            className="h-14 rounded-2xl border-zinc-100 bg-zinc-50 px-6 focus:bg-white transition-all"
                                             placeholder="What is this about?"
                                             {...field}
                                             data-testid="input-contact-subject"
@@ -115,11 +123,11 @@ export default function ContactForm() {
                             name="message"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Message</FormLabel>
+                                    <FormLabel className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Message</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="Your message..."
-                                            rows={5}
+                                            className="rounded-2xl border-zinc-100 bg-zinc-50 px-6 py-4 focus:bg-white transition-all min-h-[150px] resize-none"
+                                            placeholder="How can we help you?"
                                             {...field}
                                             data-testid="input-contact-message"
                                         />
@@ -128,9 +136,9 @@ export default function ContactForm() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full bg-green-800 text-white sm:w-auto" data-testid="button-contact-submit">
-                            <Send className="w-4 h-4 mr-2" />
-                            Send Message
+                        <Button type="submit" size="lg" className="w-full bg-green-700 hover:bg-green-800 text-white shadow-xl shadow-green-900/10 h-16 rounded-2xl text-lg font-bold" data-testid="button-contact-submit">
+                            <Send className="w-5 h-5 mr-3" />
+                            Send Your Message
                         </Button>
                     </form>
                 </Form>

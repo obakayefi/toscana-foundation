@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5C842"/>
+      <stop offset="50%" stop-color="#D4A020"/>
+      <stop offset="100%" stop-color="#F5C842"/>
+    </linearGradient>
+    <linearGradient id="crestGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#C8C8C8"/>
+      <stop offset="100%" stop-color="#8A8A8A"/>
+    </linearGradient>
+    <linearGradient id="greenLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D8C44"/>
+      <stop offset="100%" stop-color="#1E5C2E"/>
+    </linearGradient>
+    <linearGradient id="tanLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C9AA7C"/>
+      <stop offset="100%" stop-color="#96784A"/>
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Black background -->
+  <rect width="512" height="512" fill="#0A0A0A" rx="80"/>
+
+  <!-- Gold ring -->
+  <circle cx="256" cy="248" r="188" fill="none" stroke="url(#goldRing)" stroke-width="30" filter="url(#glow)"/>
+
+  <!-- Crest body (hexagonal shield shape) -->
+  <g transform="translate(256,225) scale(0.9)">
+    <!-- Shield -->
+    <path d="M0,-72 L52,-36 L52,20 Q52,60 0,80 Q-52,60 -52,20 L-52,-36 Z"
+          fill="#1A1A1A" stroke="url(#crestGrad)" stroke-width="3"/>
+    <!-- Shield divider -->
+    <line x1="0" y1="-72" x2="0" y2="80" stroke="url(#crestGrad)" stroke-width="2"/>
+    <!-- Crown top -->
+    <path d="M-22,-72 L-22,-82 L-11,-74 L0,-84 L11,-74 L22,-82 L22,-72 Z"
+          fill="url(#crestGrad)"/>
+    <!-- Left leaf motif -->
+    <path d="M-32,-10 Q-44,-22 -36,-34 Q-24,-26 -28,-10 Z" fill="#2D8C44" opacity="0.85"/>
+    <path d="M-32,-10 Q-44,2 -36,14 Q-24,6 -28,-10 Z" fill="#2D8C44" opacity="0.85"/>
+    <!-- Right geometric diamond -->
+    <path d="M20,-12 L30,0 L20,12 L10,0 Z" fill="url(#crestGrad)" opacity="0.9"/>
+    <!-- Center diamond accent -->
+    <path d="M0,-18 L8,0 L0,18 L-8,0 Z" fill="url(#crestGrad)" opacity="0.7"/>
+    <!-- Side leaf flourishes -->
+    <path d="M-52,-10 Q-64,-20 -56,-28 L-52,-10 Z" fill="url(#crestGrad)" opacity="0.5"/>
+    <path d="M52,-10 Q64,-20 56,-28 L52,-10 Z" fill="url(#crestGrad)" opacity="0.5"/>
+  </g>
+
+  <!-- Green & tan swoosh accent at bottom -->
+  <g transform="translate(256,390)">
+    <!-- Green leaf -->
+    <path d="M-55,0 Q-30,-28 10,-18 Q-15,10 -55,0 Z" fill="url(#greenLeaf)" opacity="0.95"/>
+    <!-- Tan/sand swoosh -->
+    <path d="M-15,-10 Q20,-32 60,-12 Q30,18 -15,-10 Z" fill="url(#tanLeaf)" opacity="0.9"/>
+    <!-- Highlight line -->
+    <path d="M-50,4 Q0,-20 55,-4" fill="none" stroke="url(#goldRing)" stroke-width="1.5" opacity="0.4"/>
+  </g>
+</svg>

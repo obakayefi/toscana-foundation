@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model GalleryEvent {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String   @unique
+  title       String
+  description String?
+  year        String
+  images      Image[]
+  createdAt   DateTime @default(now())
+}
+
+model Image {
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
+  url      String
+  publicId String
+  eventId  String       @db.ObjectId
+  event    GalleryEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model Beneficiary {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  type           String   // 'academic' or 'youth'
+  name           String
+  yearJoined     String
+  gender         String
+  img            String?  // Cloudinary URL
+  imgPublicId    String?  // Cloudinary public_id for deletion
+  
+  // Academic fields
+  grant          String?
+  schoolName     String?
+  course         String?
+  level          String?  // class/level
+
+  // Youth fields
+  craft          String?
+  equipmentGiven String?
+
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+}
