@@ -1,19 +1,18 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model GalleryEvent {
-  id          String   @id @default(cuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   slug        String   @unique
   title       String
   description String?
@@ -23,20 +22,21 @@ model GalleryEvent {
 }
 
 model Image {
-  id       String       @id @default(cuid())
+  id       String       @id @default(auto()) @map("_id") @db.ObjectId
   url      String
   publicId String
-  eventId  String
+  eventId  String       @db.ObjectId
   event    GalleryEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model Beneficiary {
-  id             String   @id @default(cuid())
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   type           String   // 'academic' or 'youth'
   name           String
   yearJoined     String
   gender         String
   img            String?  // Cloudinary URL
+  imgPublicId    String?  // Cloudinary public_id for deletion
   
   // Academic fields
   grant          String?

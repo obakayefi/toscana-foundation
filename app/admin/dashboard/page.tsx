@@ -1,11 +1,17 @@
-import { readData } from "@/lib/json-db";
+import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { Image as ImageIcon, GraduationCap, ArrowRight, Download, Database } from "lucide-react";
 
 export default async function AdminDashboardOverview() {
-    const data = await readData();
-    const galleryCount = data.galleryEvents.length;
-    const scholarshipCount = data.beneficiaries.length;
+    let galleryCount = 0;
+    let scholarshipCount = 0;
+
+    try {
+        galleryCount = await prisma.galleryEvent.count();
+        scholarshipCount = await prisma.beneficiary.count();
+    } catch (e) {
+        console.error("Dashboard overview count error:", e);
+    }
 
     return (
         <div className="space-y-8">

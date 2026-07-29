@@ -30,7 +30,12 @@ const BeneficiaryCard = ({ beneficiary, type }: { beneficiary: any, type: 'acade
             <div className="absolute inset-0 bg-green-100 rounded-full scale-110 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative h-28 w-28 rounded-full border-4 border-white shadow-lg overflow-hidden bg-zinc-100">
                 {beneficiary.img ? (
-                    <Image src={beneficiary.img} fill className="object-cover" alt={beneficiary.name} />
+                    beneficiary.img.startsWith('https://res.cloudinary.com') ? (
+                        <Image src={beneficiary.img} fill className="object-cover" alt={beneficiary.name} />
+                    ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={beneficiary.img} className="object-cover w-full h-full" alt={beneficiary.name} />
+                    )
                 ) : (
                     <div className="w-full h-full flex items-center justify-center bg-green-50 text-green-700">
                         {type === 'academic' ? <BiSolidGraduation size={32} /> : <RiToolsFill size={32} />}
@@ -65,7 +70,11 @@ const BeneficiaryCard = ({ beneficiary, type }: { beneficiary: any, type: 'acade
     </motion.div>
 );
 
-export default function ScholarshipsClient({ beneficiaries }: { beneficiaries: any[] }) {
+import { useScholarships } from "@/hooks/useScholarships";
+
+export default function ScholarshipsClient({ beneficiaries: initialBeneficiaries }: { beneficiaries: any[] }) {
+    const { data: beneficiaries = initialBeneficiaries } = useScholarships(initialBeneficiaries);
+
     // Separate by type and sort by sortOrder (since they were returned sorted from DB, we just filter)
     const academic = beneficiaries.filter(b => b.type === 'academic');
     const youth = beneficiaries.filter(b => b.type === 'youth');

@@ -1,12 +1,27 @@
 'use server';
 
-import { readData, writeData, Beneficiary } from "@/lib/json-db";
+import { prisma } from "@/lib/db";
+import cloudinary, { uploadToCloudinary } from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 import { verifyAdmin } from "../../actions";
 
 export async function getBeneficiaries() {
-    const data = await readData();
-    return data.beneficiaries.sort((a, b) => a.sortOrder - b.sortOrder);
+    return await prisma.beneficiary.findMany({
+        orderBy: { sortOrder: 'asc' }
+    });
+}
+
+/**
+ * Upload a beneficiary photo to Cloudinary.
+ * Called client-side via a server action — accepts FormData with an "image" file.
+ */
+export async function uploadBeneficiaryImage(formData: FormData): Promise<{ url: string; publicId: string }> {
+    if (!await verifyAdmin()) throw new Error("Unauthorized");
+
+    const file = formData.get("image") as File;
+    if (!file || file.size === 0) throw new Error("No image provided");
+
+    return uploadToCloudinary(file, 'toscana-scholars');
 }
 
 export async function createBeneficiary(beneficiaryData: {
@@ -15,6 +30,7 @@ export async function createBeneficiary(beneficiaryData: {
     yearJoined: string,
     gender: string,
     img?: string,
+    imgPublicId?: string,
     grant?: string,
     schoolName?: string,
     course?: string,
@@ -23,66 +39,63 @@ export async function createBeneficiary(beneficiaryData: {
     equipmentGiven?: string,
 }) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
-    
-    const data = await readData();
-    
-    // Find highest sortOrder for this type
-    const sameType = data.beneficiaries.filter(b => b.type === beneficiaryData.type);
+
+    const sameType = await prisma.beneficiary.findMany({
+        where: { type: beneficiaryData.type },
+        select: { sortOrder: true }
+    });
     const maxSortOrder = sameType.reduce((max, b) => Math.max(max, b.sortOrder), -1);
-    
-    const newBeneficiary: Beneficiary = {
-        ...beneficiaryData,
-        id: crypto.randomUUID(),
-        sortOrder: maxSortOrder + 1,
-        createdAt: new Date().toISOString(),
-        img: beneficiaryData.img || null
-    };
-    
-    data.beneficiaries.push(newBeneficiary);
-    data.updatedAt = new Date().toISOString();
-    await writeData(data);
-    
+
+    const newBeneficiary = await prisma.beneficiary.create({
+        data: {
+            ...beneficiaryData,
+            sortOrder: maxSortOrder + 1,
+            img: beneficiaryData.img || null,
+            imgPublicId: beneficiaryData.imgPublicId || null,
+        }
+    });
+
     revalidatePath('/scholarships');
     revalidatePath('/admin/dashboard/scholarships');
-    return { success: true };
+    return { success: true, beneficiary: newBeneficiary };
 }
 
 export async function updateBeneficiary(id: string, updateData: any) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
-    
-    const data = await readData();
-    const index = data.beneficiaries.findIndex(b => b.id === id);
-    if (index === -1) throw new Error("Beneficiary not found");
-    
-    data.beneficiaries[index] = {
-        ...data.beneficiaries[index],
-        ...updateData,
-        updatedAt: new Date().toISOString()
-    };
-    
-    data.updatedAt = new Date().toISOString();
-    await writeData(data);
-    
+
+    // Strip out immutable and system fields to prevent Prisma schema validation errors
+    const { id: _id, createdAt: _created, updatedAt: _updated, ...cleanData } = updateData;
+
+    // If image is being replaced and there was an old one, delete it from Cloudinary
+    if (cleanData.imgPublicId !== undefined) {
+        const existing = await prisma.beneficiary.findUnique({ where: { id }, select: { imgPublicId: true } });
+        if (existing?.imgPublicId && existing.imgPublicId !== cleanData.imgPublicId) {
+            await cloudinary.uploader.destroy(existing.imgPublicId).catch(() => {});
+        }
+    }
+
+    const updatedBeneficiary = await prisma.beneficiary.update({
+        where: { id },
+        data: cleanData
+    });
+
     revalidatePath('/scholarships');
     revalidatePath('/admin/dashboard/scholarships');
-    return { success: true };
+    return { success: true, beneficiary: updatedBeneficiary };
 }
 
 export async function updateBeneficiaryOrders(orderedIds: string[]) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
-    
-    const data = await readData();
-    
-    orderedIds.forEach((id, index) => {
-        const bIndex = data.beneficiaries.findIndex(b => b.id === id);
-        if (bIndex !== -1) {
-            data.beneficiaries[bIndex].sortOrder = index;
-        }
-    });
-    
-    data.updatedAt = new Date().toISOString();
-    await writeData(data);
-    
+
+    await Promise.all(
+        orderedIds.map((id, index) =>
+            prisma.beneficiary.update({
+                where: { id },
+                data: { sortOrder: index }
+            })
+        )
+    );
+
     revalidatePath('/scholarships');
     revalidatePath('/admin/dashboard/scholarships');
     return { success: true };
@@ -90,13 +103,15 @@ export async function updateBeneficiaryOrders(orderedIds: string[]) {
 
 export async function deleteBeneficiary(id: string) {
     if (!await verifyAdmin()) throw new Error("Unauthorized");
-    
-    const data = await readData();
-    data.beneficiaries = data.beneficiaries.filter(b => b.id !== id);
-    
-    data.updatedAt = new Date().toISOString();
-    await writeData(data);
-    
+
+    // Clean up Cloudinary image if it exists
+    const beneficiary = await prisma.beneficiary.findUnique({ where: { id }, select: { imgPublicId: true } });
+    if (beneficiary?.imgPublicId) {
+        await cloudinary.uploader.destroy(beneficiary.imgPublicId).catch(() => {});
+    }
+
+    await prisma.beneficiary.delete({ where: { id } });
+
     revalidatePath('/scholarships');
     revalidatePath('/admin/dashboard/scholarships');
     return { success: true };

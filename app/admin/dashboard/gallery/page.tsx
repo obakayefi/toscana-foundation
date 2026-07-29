@@ -1,15 +1,21 @@
-import { readData } from "@/lib/json-db";
+import { prisma } from "@/lib/db";
 import Link from "next/link";
-import { Plus, Edit2, Trash2, Image as ImageIcon } from "lucide-react";
+import { Plus, Edit2, Image as ImageIcon } from "lucide-react";
 
 export default async function AdminGalleryPage() {
-    const data = await readData();
-    const events = data.galleryEvents
-        .sort((a, b) => b.year.localeCompare(a.year))
-        .map(e => ({
+    let events: any[] = [];
+    try {
+        const dbEvents = await prisma.galleryEvent.findMany({
+            orderBy: { year: 'desc' },
+            include: { images: true }
+        });
+        events = dbEvents.map(e => ({
             ...e,
             _count: { images: e.images.length }
         }));
+    } catch (e) {
+        console.error("Admin gallery fetch error:", e);
+    }
 
     return (
         <div className="space-y-8">
@@ -61,7 +67,6 @@ export default async function AdminGalleryPage() {
                                             >
                                                 <Edit2 size={16} />
                                             </Link>
-                                            {/* We'll implement delete via a client component or server action in the edit page for simplicity, or add a delete button here later */}
                                         </div>
                                     </td>
                                 </tr>
